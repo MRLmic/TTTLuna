@@ -1,2 +1,40 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+.wrapper {
+  border: 5px solid darkcyan;
+  box-sizing: content-box;
+  float: none;
+  height: 360px;
+  margin: 0 auto;
+  padding: 0;
+  top: 50% auto;
+  left: 50% auto;
+  width: 360px;
+}
+
+div {
+  border: 2px outset cyan;
+  box-sizing: border-box;
+  color: tomato;
+  float: left;
+  font-size: 30px;
+  height: 120px;
+  margin: 0;
+  padding-top: 40px;
+  position: relative;
+  text-align: center;
+  width: 120px;
+}
+header {
+  background: ghostwhite;
+  color: navy;
+  font-family: helvetica, sans-serif;
+  font-size: 40px;
+  margin: 40px 0px;
+  padding: 30px;
+  text-align: center;
+  text-decoration: underline;
+  width: 100%;
+
+}
