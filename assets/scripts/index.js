@@ -31,22 +31,22 @@ const config = require('./config')
 
 // wrap it all in an onPageLoad
 $(() => {
-  let currentGameArray = ['', '', '', '', '', '', '', '', '']
+  let currentGameArray = [null, null, null, null, null, null, null, null, null]
   let accumulator = 2
   let character = 'X'
 
   const turnChange = function () {
     if (accumulator % 2 === 0) {
       character = 'X'
-      console.log('X is up!')
+      $('.turn').text('X is up!')
     } else {
       character = 'O'
-      console.log('O is up!')
+      $('.turn').text('O is up!')
     }
   }
 
   const fillArray = function (currentID) {
-    if (currentGameArray[currentID] === '') {
+    if (currentGameArray[currentID] === null) {
       accumulator += 1
       turnChange()
       console.log(currentID)
