@@ -27,7 +27,7 @@ div {
   width: 120px;
 }
 header {
-  background: ghostwhite;
+  background: darken(ghostwhite, 10%);
   color: navy;
   font-family: helvetica, sans-serif;
   font-size: 40px;
@@ -36,5 +36,17 @@ header {
   text-align: center;
   text-decoration: underline;
   width: 100%;
-
+}
+section {
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+}
+.o-class {
+  //background-image: url('./images/letter-o.jpg');
+  //background-size: auto;
+  background-color: tomato;
+}
+.x-class {
+  background-color: blue;
 }
