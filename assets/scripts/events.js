@@ -1,10 +1,10 @@
 let currentGameArray = ['', '', '', '', '', '', '', '', '']
-let accumulator = 0
-let character
+let accumulator = 2
+let character = 'X'
 const fillArray = function (i) {
   if (currentGameArray[i] === '') {
-    currentGameArray[i] = character
     accumulator += 1
+    currentGameArray[i] = character
   } else {
     console.log('Please choose another square.')
   }
@@ -13,5 +13,9 @@ const fillArray = function (i) {
 const turnChange = function () {
   if (accumulator % 2 === 0) {
     character = 'X'
-  } else { character = 'O' }
+    console.log('X is up!')
+  } else {
+    character = 'O'
+    console.log('O is up!')
+  }
 }
