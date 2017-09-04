@@ -98,9 +98,17 @@ $(() => {
       .then(userUi.changeSuccess)
       .catch(userUi.changeFailure)
   }
+  const signOut = function (event) {
+    event.preventDefault()
+    const data = getFormFields(this)
+    userApi.signOut(data)
+      .then(userUi.signOutSuccess)
+      .catch(userUi.signOutFailure)
+  }
   $('#sign-up').on('submit', signUp)
   $('#sign-in').on('submit', signIn)
   $('#change-password').on('submit', changePassword)
+  $('#sign-out').on('submit', signOut)
 }
 )
 // const needFunctions = require('./events')
