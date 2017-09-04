@@ -12,7 +12,10 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
   left: 50% auto;
   width: 360px;
 }
-
+.form-group {
+  border: none;
+  margin: 20px;
+}
 div {
   border: 2px outset cyan;
   box-sizing: border-box;
@@ -41,6 +44,7 @@ section {
   font-size: 30px;
   text-align: center;
   width: 100%;
+  margin: 10px;
 }
 .o-class {
   //background-image: url('./images/letter-o.jpg');
@@ -49,4 +53,23 @@ section {
 }
 .x-class {
   background-color: blue;
+}
+#sign-up {
+  margin: 20px;
+}
+.sign-up-success {
+  font-size: 14px;
+  padding-bottom: 20px;
+  border: none;
+  left: 10px;
+  margin: 40px;
+}
+.sign-in-success {
+  border: none;
+  font-size: 14px;
+  margin: 40px;
+  padding-bottom: 30px;
+}
+.change-password-message {
+  border: none;
 }
