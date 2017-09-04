@@ -45,6 +45,33 @@
 
         </div>
       </div>
-
+      <form class="auth" id="sign-up">
+        <div class="sign-up-success">
+        </div>
+      <div class="form-group">
+        <input type="text" name="credentials[email]" id="email" placeholder="Email">
+        <input type="text" name="credentials[password]" id="password" placeholder="Password">
+        <input type="text" name="credentials[password_confirmation]" id="password_confirmation" placeholder="Password Confirmation">
+      </div>
+      <button type="submit" class="btn btn-default">Sign Up</button>
+      </form>
+      <form class="auth" id="sign-in">
+        <div class="sign-in-success">
+        </div>
+      <div class="form-group">
+        <input type="text" name="credentials[email]" id="email" placeholder="Email">
+        <input type="text" name="credentials[password]" id="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-default">Sign In</button>
+      </form>
+      <form class="auth" id="change-password">
+        <div class="change-password-message">
+        </div>
+      <div class="form-group">
+        <input type="text" name="passwords[old]" id="password" placeholder="old password">
+        <input type="text" name="passwords[new]" id="new" placeholder="new password">
+      </div>
+      <button type="submit" class="btn btn-default">Change Password</button>
+      </form>
     </body>
 </html>
