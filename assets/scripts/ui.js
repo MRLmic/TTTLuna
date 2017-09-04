@@ -27,11 +27,19 @@ const changeSuccess = function (data) {
 const changeFailure = function (data) {
   $(".change-password-message").text('fail. try again')
 }
+const signOutSuccess = function (data) {
+  $(".sign-in-success").text('signed out')
+}
+const signOutFailure = function (data) {
+  $(".sign-in-success").text('something went wrong')
+}
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
   onSignInSuccess,
   onSignInFailure,
   changeSuccess,
-  changeFailure
+  changeFailure,
+  signOutSuccess,
+  signOutFailure
 }
