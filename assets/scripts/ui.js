@@ -43,7 +43,7 @@ const newGameSuccess = function (data) {
   $("#wrapper").children().show()
   console.log('new game created')
   console.log(data)
-  store.id = data.game.id
+  //store.game.id = data.game.id
   store.game = data.game
   index.currentGameArray = [null, null, null, null, null, null, null, null, null]
   //console.log(index.currentGameArray)
