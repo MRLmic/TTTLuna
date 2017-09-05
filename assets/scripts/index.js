@@ -5,13 +5,13 @@ const config = require('../../config')
 const getFormFields = require('../../spec/lib/get-form-fields')
 const userApi = require('./api.js')
 const userUi = require('./ui.js')
+const store = require('./store')
 
 $(() => {
   setAPIOrigin(location, config)
   let currentGameArray = [null, null, null, null, null, null, null, null, null]
   let accumulator = 2
   let character = 'X'
-
   const turnChange = function () {
     if (accumulator % 2 === 0) {
       character = 'X'
@@ -27,20 +27,23 @@ $(() => {
       accumulator += 1
       turnChange()
       currentGameArray[currentID] = character
+      updateGame(currentID)
     } else {
       console.log('Please choose another square.')
     }
   }
-
+  let indexID
   let currentID
   let xArray = []
   let oArray = []
+  $("#wrapper").children().hide()
   $("#wrapper").children().on("click", function (event) {
-    console.log($(event.target).attr('id'))
+    //console.log($(event.target).attr('id'))
     currentID = $(event.target).attr('id')
+    indexID = $(event.target).attr('id')
     $(event.target).text(character)
     fillArray(currentID)
-    console.log(character)
+    //console.log(character)
 
     // $(event.target).
     let currentArray
@@ -61,19 +64,24 @@ $(() => {
       ["0", "3", "6"], ["0", "4", "5"], ["2", "4", "6"]]
     solSet.forEach(function (winningCombination) {
       let thisVar = winningCombination.every(function (i) {
-        console.log(xArray.includes(i))
-        console.log(currentArray)
+        //console.log(xArray.includes(i))
+        //console.log(currentArray)
         return currentArray.includes(i)
       })
       if (thisVar === true && accumulator % 2 === 0)
       {console.log('O is the winner!')
+      $(".turn").text('O is the winner!')
         $("#wrapper").children().off("click")
       } else if (thisVar === true && accumulator % 2 === 1) {
         console.log('X is the winner!')
+        $(".turn").text('X is the winner!')
         $("#wrapper").children().off("click")
+        //store.game = nowGame
+        console.log(store.game)
       }
     })
   })
+
   const signUp = function (event) {
     event.preventDefault()
     const data = getFormFields(this)
@@ -105,12 +113,45 @@ $(() => {
       .then(userUi.signOutSuccess)
       .catch(userUi.signOutFailure)
   }
+  const createNewGame = function (event) {
+    event.preventDefault()
+    const data = getFormFields(this)
+    userApi.newGame(data)
+      .then(userUi.newGameSuccess)
+      .catch(console.log('no'))
+  }
+  const updateGame = function (currentID) {
+    const data = {
+      "game": {
+        "cell": {
+          "index": indexID,
+          "value": $("#wrapper").children().html()
+        },
+        "over": false
+      }
+    }
+    userApi.update(data)
+      .then(console.log('update game just worked'))
+  }
+  const getGames = function (event) {
+    event.preventDefault()
+    userApi.get()
+      .then(userUi.onGetSuccess)
+      .catch(console.log('api get function not working'))
+  }
   $('#sign-up').on('submit', signUp)
   $('#sign-in').on('submit', signIn)
   $('#change-password').on('submit', changePassword)
   $('#sign-out').on('submit', signOut)
+  $('#sign-out').hide()
+  $('#new').hide()
+  $('#new').on('submit', createNewGame)
+  $('#fetch').on('submit', getGames)
 }
 )
+module.exports = {
+
+}
 // const needFunctions = require('./events')
 
 // $(() => {
