@@ -40,14 +40,31 @@ const signOutFailure = function (data) {
   $(".sign-up-success").text('something went wrong')
 }
 const newGameSuccess = function (data) {
+  //index.resetAll()
   $("#wrapper").children().show()
+  $("#wrapper").children().on("click")
   console.log('new game created')
   console.log(data)
+  //index.resetAll()
+  // while (index.xArray.length > 0) {
+  //
+  //   index.xArray.pop()
+  // }
+  // while (index.oArray.length > 0) {
+  //   index.oArray.pop()
+  // }
+  // while (index.currentArray.length > 0) {
+  //   index.currentArray.pop()
+  // }
+  // index.xArray = []
+  // index.oArray = []
+  // index.currentArray = []
+//console.log(index.currentArray)
   //store.game.id = data.game.id
   store.game = data.game
-  index.currentGameArray = [null, null, null, null, null, null, null, null, null]
+  //index.currentGameArray = [null, null, null, null, null, null, null, null, null]
   //console.log(index.currentGameArray)
-  index.accumulator = 2
+  //index.accumulator = 2
   $("#wrapper").children().text('')
   $(".turn").text('New game! X is up!')
 }

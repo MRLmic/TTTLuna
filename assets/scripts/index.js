@@ -9,6 +9,14 @@ const store = require('./store')
 
 $(() => {
   setAPIOrigin(location, config)
+  const resetAll = function () {
+    accumulator = 2
+    character = 'X'
+    currentGameArray = [null, null, null, null, null, null, null, null, null]
+    xArray = []
+    oArray = []
+    $("#wrapper").children().on("click")
+  }
   let currentGameArray = [null, null, null, null, null, null, null, null, null]
   let accumulator = 2
   let character = 'X'
@@ -47,6 +55,9 @@ $(() => {
 
     // $(event.target).
     let currentArray
+    let notNull = function (element) {
+      return element !== null
+    }
     if (character === 'O') {
       xArray.push(currentID)
       currentArray = xArray
@@ -61,7 +72,7 @@ $(() => {
       oArray.sort()
     }
     const solSet = [["0", "1", "2"], ["3", "4", "5"], ["6", "7", "8"], ["2", "5", "8"], ["1", "4", "7"],
-      ["0", "3", "6"], ["0", "4", "5"], ["2", "4", "6"]]
+      ["0", "3", "6"], ["0", "4", "8"], ["2", "4", "6"]]
     solSet.forEach(function (winningCombination) {
       let thisVar = winningCombination.every(function (i) {
         //console.log(xArray.includes(i))
@@ -70,7 +81,7 @@ $(() => {
       })
       if (thisVar === true && accumulator % 2 === 0)
       {console.log('O is the winner!')
-      $(".turn").text('O is the winner!')
+        $(".turn").text('O is the winner!')
         $("#wrapper").children().off("click")
       } else if (thisVar === true && accumulator % 2 === 1) {
         console.log('X is the winner!')
@@ -78,6 +89,8 @@ $(() => {
         $("#wrapper").children().off("click")
         //store.game = nowGame
         console.log(store.game)
+      } else if (currentGameArray.every(notNull) && accumulator === 11) {
+        console.log('draw!')
       }
     })
   })
@@ -146,12 +159,13 @@ $(() => {
   $('#sign-out').hide()
   $('#new').hide()
   $('#new').on('submit', createNewGame)
+  $('#new').on('submit', resetAll)
   $('#fetch').on('submit', getGames)
+  module.exports = {
+    //resetAll
+  }
 }
 )
-module.exports = {
-
-}
 // const needFunctions = require('./events')
 
 // $(() => {
