@@ -6,152 +6,196 @@ const getFormFields = require('../../spec/lib/get-form-fields')
 const userApi = require('./api.js')
 const userUi = require('./ui.js')
 const store = require('./store')
+// const gameActive = false
+// store.gameActive = gameActive
 
+// const userTakeTurn = function () {
+//   if (store.gameActive === true) {
+
+let currentGameArray = [null, null, null, null, null, null, null, null, null]
+let accumulator = 2
+let character = 'X'
+let indexID
+let currentID
+let currentArray
+let xArray = []
+let oArray = []
+let winner = false
+let gameOver = false
+let gameActive = false
+
+
+const reset = function () {
+  console.log('yep')
+  accumulator = 2
+  console.log(accumulator)
+  character = 'X'
+  currentGameArray = [null, null, null, null, null, null, null, null, null]
+  xArray = []
+  oArray = []
+  gameActive = true
+  winner = false
+  gameOver = false
+  console.log(gameActive)
+  startOrNah()
+}
+
+// Filling in X or O to square depending on modulo result
+const turnChange = function () {
+  if (accumulator % 2 === 0) {
+    character = 'O'
+    $('.turn').text('O is up!')
+  } else {
+    character = 'X'
+    $('.turn').text('X is up!')
+  }
+  accumulator += 1
+  console.log(accumulator)
+  // console.log('this' + accumulator)
+}
+
+const fillArray = function (currentID) {
+  if (currentGameArray[currentID] === null) {
+    // console.log(currentGameArray)
+    currentGameArray[currentID] = character
+    $(event.target).text(character)
+    turnChange()
+    console.log(currentGameArray)
+    updateGame(currentID)
+  } else {
+    $('.turn').text('Square taken. Please choose another square.')
+  }
+}
+const startOrNah = function () {
+  if (gameActive === true && gameOver === false) {
+  console.log(gameOver)
+$('#wrapper').children().on('click', function (event) {
+// console.log($(event.target).attr('id'))
+// console.log('click event fired')
+  currentID = $(event.target).attr('id')
+  indexID = $(event.target).attr('id')
+  fillArray(currentID)
+
+if (character === 'O') {
+  xArray.push(currentID)
+  currentArray = xArray
+  console.log(currentArray)
+  xArray.sort()
+  // console.log(xArray)
+} else {
+  oArray.push(currentID)
+  currentArray = oArray
+  // console.log(oArray)
+  console.log(currentArray)
+  oArray.sort()
+}
+const solSet = [['0', '1', '2'], ['3', '4', '5'], ['6', '7', '8'], ['2', '5', '8'], ['1', '4', '7'],
+  ['0', '3', '6'], ['0', '4', '8'], ['2', '4', '6']]
+solSet.forEach(function (winningCombination) {
+  const thisVar = winningCombination.every(function (i) {
+    // console.log(xArray.includes(i))
+    // console.log(currentArray)
+    return currentArray.includes(i)
+  })
+  if (thisVar === true && accumulator % 2 === 0) {
+    console.log('O is the winner!')
+    $('.turn').text('O is the winner!')
+    winner = true
+    gameOver = true
+    console.log(gameOver)
+    gameActive = false
+    startOrNah()
+    // $('#wrapper').children().off('click')
+  } else if (thisVar === true && accumulator % 2 === 1) {
+    console.log('X is the winner!')
+    $('.turn').text('X is the winner!')
+    winner = true
+    gameOver = true
+    gameActive = false
+    startOrNah()
+    // $('#wrapper').children().off('click')
+    // store.game = nowGame
+  //   console.log(store.game)
+  // } else if (currentGameArray.every(notNull) && accumulator === 11) {
+  } else if (winner === false && accumulator === 9) {
+    console.log('draw!')
+    gameOver = true
+    gameActive = 0
+  }
+}) })
+} else {
+  return
+}
+}
+// })
+// } else {
+//   $('.turn').text('Please click new game to start.')
+// }
+// }
+
+const changePassword = function (event) {
+  event.preventDefault()
+  const data = getFormFields(this)
+  console.log('index.js' + data)
+  userApi.changePassword(data)
+    .then(userUi.changeSuccess)
+    .catch(userUi.changeFailure)
+}
+const signUp = function (event) {
+  event.preventDefault()
+  const data = getFormFields(this)
+  console.log(data)
+  userApi.create(data)
+    .then(userUi.onSignUpSuccess)
+    .catch(userUi.onSignUpFailure)
+}
+const signIn = function (event) {
+  event.preventDefault()
+  const data = getFormFields(this)
+  console.log(data)
+  userApi.logIn(data)
+    .then(userUi.onSignInSuccess)
+    .catch(userUi.onSignInFailure)
+}
+
+const signOut = function (event) {
+  event.preventDefault()
+  const data = getFormFields(this)
+  userApi.signOut(data)
+    .then(userUi.signOutSuccess)
+    .catch(userUi.signOutFailure)
+}
+const createNewGame = function (event) {
+  event.preventDefault()
+  const data = getFormFields(this)
+  userApi.newGame(data)
+    .then(userUi.newGameSuccess)
+    .catch(console.log('no'))
+}
+const updateGame = function (currentID) {
+  const data = {
+    'game': {
+      'cell': {
+        'index': indexID,
+        'value': $('#wrapper').children().html()
+      },
+      'over': false
+    }
+  }
+  userApi.update(data)
+    .then(console.log('update game just worked'))
+}
+const getGames = function (event) {
+  event.preventDefault()
+  userApi.get()
+    .then(userUi.onGetSuccess)
+    .catch(console.log('api get function not working'))
+}
 $(() => {
   setAPIOrigin(location, config)
-  const resetAll = function () {
-    accumulator = 2
-    character = 'X'
-    currentGameArray = [null, null, null, null, null, null, null, null, null]
-    xArray = []
-    oArray = []
-    $("#wrapper").children().on("click")
-  }
-  let currentGameArray = [null, null, null, null, null, null, null, null, null]
-  let accumulator = 2
-  let character = 'X'
-  const turnChange = function () {
-    if (accumulator % 2 === 0) {
-      character = 'X'
-      $('.turn').text('X is up!')
-    } else {
-      character = 'O'
-      $('.turn').text('O is up!')
-    }
-  }
-
-  const fillArray = function (currentID) {
-    if (currentGameArray[currentID] === null) {
-      accumulator += 1
-      turnChange()
-      currentGameArray[currentID] = character
-      updateGame(currentID)
-    } else {
-      console.log('Please choose another square.')
-    }
-  }
-  let indexID
-  let currentID
-  let xArray = []
-  let oArray = []
-  $("#wrapper").children().hide()
-  $("#wrapper").children().on("click", function (event) {
-    //console.log($(event.target).attr('id'))
-    currentID = $(event.target).attr('id')
-    indexID = $(event.target).attr('id')
-    $(event.target).text(character)
-    fillArray(currentID)
-    //console.log(character)
-
-    // $(event.target).
-    let currentArray
-    let notNull = function (element) {
-      return element !== null
-    }
-    if (character === 'O') {
-      xArray.push(currentID)
-      currentArray = xArray
-      console.log(currentArray)
-      xArray.sort()
-    // console.log(xArray)
-    } else {
-      oArray.push(currentID)
-      currentArray = oArray
-      // console.log(oArray)
-      console.log(currentArray)
-      oArray.sort()
-    }
-    const solSet = [["0", "1", "2"], ["3", "4", "5"], ["6", "7", "8"], ["2", "5", "8"], ["1", "4", "7"],
-      ["0", "3", "6"], ["0", "4", "8"], ["2", "4", "6"]]
-    solSet.forEach(function (winningCombination) {
-      let thisVar = winningCombination.every(function (i) {
-        //console.log(xArray.includes(i))
-        //console.log(currentArray)
-        return currentArray.includes(i)
-      })
-      if (thisVar === true && accumulator % 2 === 0)
-      {console.log('O is the winner!')
-        $(".turn").text('O is the winner!')
-        $("#wrapper").children().off("click")
-      } else if (thisVar === true && accumulator % 2 === 1) {
-        console.log('X is the winner!')
-        $(".turn").text('X is the winner!')
-        $("#wrapper").children().off("click")
-        //store.game = nowGame
-        console.log(store.game)
-      } else if (currentGameArray.every(notNull) && accumulator === 11) {
-        console.log('draw!')
-      }
-    })
-  })
-
-  const signUp = function (event) {
-    event.preventDefault()
-    const data = getFormFields(this)
-    console.log(data)
-    userApi.create(data)
-      .then(userUi.onSignUpSuccess)
-      .catch(userUi.onSignUpFailure)
-  }
-  const signIn = function (event) {
-    event.preventDefault()
-    const data = getFormFields(this)
-    console.log(data)
-    userApi.logIn(data)
-      .then(userUi.onSignInSuccess)
-      .catch(userUi.onSignInFailure)
-  }
-  const changePassword = function (event) {
-    event.preventDefault()
-    const data = getFormFields(this)
-    console.log('index.js' + data)
-    userApi.changePassword(data)
-      .then(userUi.changeSuccess)
-      .catch(userUi.changeFailure)
-  }
-  const signOut = function (event) {
-    event.preventDefault()
-    const data = getFormFields(this)
-    userApi.signOut(data)
-      .then(userUi.signOutSuccess)
-      .catch(userUi.signOutFailure)
-  }
-  const createNewGame = function (event) {
-    event.preventDefault()
-    const data = getFormFields(this)
-    userApi.newGame(data)
-      .then(userUi.newGameSuccess)
-      .catch(console.log('no'))
-  }
-  const updateGame = function (currentID) {
-    const data = {
-      "game": {
-        "cell": {
-          "index": indexID,
-          "value": $("#wrapper").children().html()
-        },
-        "over": false
-      }
-    }
-    userApi.update(data)
-      .then(console.log('update game just worked'))
-  }
-  const getGames = function (event) {
-    event.preventDefault()
-    userApi.get()
-      .then(userUi.onGetSuccess)
-      .catch(console.log('api get function not working'))
-  }
+  //userTakeTurn()
+  //console.log('on doc ready' + store.gameActive)
+  startOrNah()
   $('#sign-up').on('submit', signUp)
   $('#sign-in').on('submit', signIn)
   $('#change-password').on('submit', changePassword)
@@ -159,15 +203,17 @@ $(() => {
   $('#sign-out').hide()
   $('#new').hide()
   $('#new').on('submit', createNewGame)
-  $('#new').on('submit', resetAll)
+  $('#new').on('submit', reset)
   $('#fetch').on('submit', getGames)
-  module.exports = {
-    //resetAll
-  }
+  $('#change-password').hide()
+  $('#fetch').hide()
+  $('.stats').hide()
+  $('.turn').text('Please log in or sign up.')
 }
 )
+module.exports = {
+}
 // const needFunctions = require('./events')
-
 // $(() => {
 //   setAPIOrigin(location, config)
 // })
@@ -192,5 +238,4 @@ $(() => {
 // $(() => {
 //   setAPIOrigin(location, config)
 // })
-
 // wrap it all in an onPageLoad
