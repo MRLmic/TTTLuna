@@ -33,10 +33,12 @@ const reset = function () {
   currentGameArray = [null, null, null, null, null, null, null, null, null]
   xArray = []
   oArray = []
+  currentArray = []
   gameActive = true
   winner = false
   gameOver = false
   console.log(gameActive)
+  store.game.over = false
   startOrNah()
 }
 
@@ -67,6 +69,8 @@ const fillArray = function (currentID) {
   }
 }
 const startOrNah = function () {
+  console.log(gameActive)
+  console.log(gameOver)
   if (gameActive === true && gameOver === false) {
   console.log(gameOver)
 $('#wrapper').children().on('click', function (event) {
@@ -104,6 +108,8 @@ solSet.forEach(function (winningCombination) {
     gameOver = true
     console.log(gameOver)
     gameActive = false
+    store.game.over = true
+    $('#wrapper').children().off()
     startOrNah()
     // $('#wrapper').children().off('click')
   } else if (thisVar === true && accumulator % 2 === 1) {
@@ -112,19 +118,22 @@ solSet.forEach(function (winningCombination) {
     winner = true
     gameOver = true
     gameActive = false
+    store.game.over = true
+    $('#wrapper').children().off()
     startOrNah()
     // $('#wrapper').children().off('click')
     // store.game = nowGame
   //   console.log(store.game)
   // } else if (currentGameArray.every(notNull) && accumulator === 11) {
-  } else if (winner === false && accumulator === 9) {
-    console.log('draw!')
+  } else if (winner === false && accumulator === 11) {
+    $('.turn').text('draw!')
+    $('#wrapper').children().off()
+    store.game.over = true
     gameOver = true
-    gameActive = 0
+    gameActive = false
+    return
   }
 }) })
-} else {
-  return
 }
 }
 // })
@@ -179,7 +188,7 @@ const updateGame = function (currentID) {
         'index': indexID,
         'value': $('#wrapper').children().html()
       },
-      'over': false
+      'over': store.game.over
     }
   }
   userApi.update(data)
