@@ -9,9 +9,6 @@ const store = require('./store')
 // const gameActive = false
 // store.gameActive = gameActive
 
-// const userTakeTurn = function () {
-//   if (store.gameActive === true) {
-
 let currentGameArray = [null, null, null, null, null, null, null, null, null]
 let accumulator = 2
 let character = 'X'
@@ -20,25 +17,21 @@ let currentID
 let currentArray
 let xArray = []
 let oArray = []
-let winner = false
-let gameOver = false
+// let winner = false
+// let gameOver = false
 let gameActive = false
 
-
-const reset = function () {
-  console.log('yep')
+// Resetting all arrays, character to X, called on
+const resetAll = function () {
   accumulator = 2
-  console.log(accumulator)
   character = 'X'
   currentGameArray = [null, null, null, null, null, null, null, null, null]
   xArray = []
   oArray = []
   currentArray = []
   gameActive = true
-  winner = false
-  gameOver = false
-  console.log(gameActive)
-  store.game.over = false
+  $('#wrapper').children().off()
+  // gameOver = false
   startOrNah()
 }
 
@@ -47,9 +40,11 @@ const turnChange = function () {
   if (accumulator % 2 === 0) {
     character = 'O'
     $('.turn').text('O is up!')
+    updateGame(currentID)
   } else {
     character = 'X'
     $('.turn').text('X is up!')
+    updateGame(currentID)
   }
   accumulator += 1
   console.log(accumulator)
@@ -63,19 +58,14 @@ const fillArray = function (currentID) {
     $(event.target).text(character)
     turnChange()
     console.log(currentGameArray)
-    updateGame(currentID)
+    //updateGame(currentID) //-------------------------------
   } else {
     $('.turn').text('Square taken. Please choose another square.')
   }
 }
 const startOrNah = function () {
-  console.log(gameActive)
-  console.log(gameOver)
-  if (gameActive === true && gameOver === false) {
-  console.log(gameOver)
+if (gameActive === true) {
 $('#wrapper').children().on('click', function (event) {
-// console.log($(event.target).attr('id'))
-// console.log('click event fired')
   currentID = $(event.target).attr('id')
   indexID = $(event.target).attr('id')
   fillArray(currentID)
@@ -93,55 +83,47 @@ if (character === 'O') {
   console.log(currentArray)
   oArray.sort()
 }
+// Check to see if currentArray contains winning combination of indeces
 const solSet = [['0', '1', '2'], ['3', '4', '5'], ['6', '7', '8'], ['2', '5', '8'], ['1', '4', '7'],
   ['0', '3', '6'], ['0', '4', '8'], ['2', '4', '6']]
 solSet.forEach(function (winningCombination) {
   const thisVar = winningCombination.every(function (i) {
-    // console.log(xArray.includes(i))
-    // console.log(currentArray)
     return currentArray.includes(i)
   })
+  // Depending on modulo declare correct winner when above function results true
   if (thisVar === true && accumulator % 2 === 0) {
     console.log('O is the winner!')
     $('.turn').text('O is the winner!')
-    winner = true
-    gameOver = true
-    console.log(gameOver)
+    // gameOver = true
     gameActive = false
     store.game.over = true
+    updateGame()
+    currentArray = []
     $('#wrapper').children().off()
-    startOrNah()
+    // startOrNah()
     // $('#wrapper').children().off('click')
   } else if (thisVar === true && accumulator % 2 === 1) {
     console.log('X is the winner!')
     $('.turn').text('X is the winner!')
-    winner = true
-    gameOver = true
+    // gameOver = true
     gameActive = false
     store.game.over = true
+    updateGame()
     $('#wrapper').children().off()
-    startOrNah()
-    // $('#wrapper').children().off('click')
-    // store.game = nowGame
-  //   console.log(store.game)
-  // } else if (currentGameArray.every(notNull) && accumulator === 11) {
-  } else if (winner === false && accumulator === 11) {
+    // startOrNah()
+  } else if (thisVar === false && accumulator === 11) {
     $('.turn').text('draw!')
     $('#wrapper').children().off()
     store.game.over = true
-    gameOver = true
+    updateGame()
+    currentArray = []
+    // gameOver = true
     gameActive = false
     return
   }
-}) })
-}
-}
-// })
-// } else {
-//   $('.turn').text('Please click new game to start.')
-// }
-// }
-
+})})
+}}
+// API calls
 const changePassword = function (event) {
   event.preventDefault()
   const data = getFormFields(this)
@@ -185,7 +167,7 @@ const updateGame = function (currentID) {
   const data = {
     'game': {
       'cell': {
-        'index': indexID,
+        'index': currentID,
         'value': $('#wrapper').children().html()
       },
       'over': store.game.over
@@ -200,19 +182,25 @@ const getGames = function (event) {
     .then(userUi.onGetSuccess)
     .catch(console.log('api get function not working'))
 }
+const resetForms = function () {
+  document.getElementById('#sign-in').reset()
+}
+const resetFormsSignUp = function () {
+  document.getElementById('#sign-up').reset()
+}
+
 $(() => {
   setAPIOrigin(location, config)
-  //userTakeTurn()
-  //console.log('on doc ready' + store.gameActive)
-  startOrNah()
   $('#sign-up').on('submit', signUp)
   $('#sign-in').on('submit', signIn)
+  $('#sign-out').on('submit', resetForms)
+  $('#sign-out').on('submit', resetFormsSignUp)
   $('#change-password').on('submit', changePassword)
   $('#sign-out').on('submit', signOut)
   $('#sign-out').hide()
   $('#new').hide()
   $('#new').on('submit', createNewGame)
-  $('#new').on('submit', reset)
+  $('#new').on('submit', resetAll)
   $('#fetch').on('submit', getGames)
   $('#change-password').hide()
   $('#fetch').hide()
@@ -221,6 +209,7 @@ $(() => {
 }
 )
 module.exports = {
+  resetAll
 }
 // const needFunctions = require('./events')
 // $(() => {
