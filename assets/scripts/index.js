@@ -124,6 +124,7 @@ const signUp = function (event) {
   const data = getFormFields(this)
   userApi.create(data)
     .then(userUi.onSignUpSuccess)
+    .then($(this).trigger('reset'))
     .catch(userUi.onSignUpFailure)
 }
 const signIn = function (event) {
@@ -163,9 +164,6 @@ const getGames = function (event) {
   userApi.get()
     .then(userUi.onGetSuccess)
 }
-const resetForms = function () {
-  document.getElementById('#sign-in').reset()
-}
 const resetFormsSignUp = function () {
   document.getElementById('#sign-up').reset()
 }
@@ -178,7 +176,6 @@ $(() => {
   setAPIOrigin(location, config)
   $('#sign-up').on('submit', signUp)
   $('#sign-in').on('submit', signIn)
-  $('#sign-out').on('submit', resetForms)
   $('#sign-out').on('submit', resetFormsSignUp)
   $('#changepassword').on('submit', changePassword)
   $('#changepassword').hide()
