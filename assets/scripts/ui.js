@@ -3,7 +3,7 @@ const store = require('./store')
 const index = require('./index')
 
 const onSignUpSuccess = function (data) {
-  $('.turn').text('user created!')
+  $('.turn').text('user created! please sign in to play')
 }
 const onSignUpFailure = function (data) {
   $('.sign-up-success').text('user name taken, please choose another')
