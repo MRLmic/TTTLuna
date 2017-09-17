@@ -36,7 +36,7 @@ const changeSuccess = function (data) {
   $('.turn').text('pw changed')
 }
 const changeFailure = function (data) {
-  $('.sign-up-success').text('fail. try again')
+  $('.turn').text('fail. try again')
 }
 const signOutSuccess = function (data) {
   $('.turn').text('signed out, please sign in to play')
