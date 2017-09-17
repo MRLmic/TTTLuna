@@ -4,12 +4,9 @@ const index = require('./index')
 
 const onSignUpSuccess = function (data) {
   $('.turn').text('user created!')
-  console.log('success!')
-  console.log(data)
 }
 const onSignUpFailure = function (data) {
   $('.sign-up-success').text('user name taken, please choose another')
-  console.log('nope')
 }
 const onSignInSuccess = function (data) {
   $('.turn').text('signed in')
@@ -27,7 +24,6 @@ const onSignInSuccess = function (data) {
   store.token = data.user.token
   store.id = data.user.id
   store.game = data.game //this
-  console.log(store)
 }
 const onSignInFailure = function (data) {
   $('.sign-up-success').text('oops, something went wrong. please try again')
@@ -55,9 +51,6 @@ const signOutFailure = function (data) {
   $('.sign-up-success').text('something went wrong')
 }
 const newGameSuccess = function (data) {
-  console.log(store.gameActive)
-  console.log('new game created')
-  console.log(data)
   store.game = data.game
   store.gameActive = true
   store.game.over = false//-------------------aa
@@ -68,9 +61,7 @@ const newGameSuccess = function (data) {
   $('.turn').text('New game! X is up!')
 }
 const onGetSuccess = function (data) {
-  console.log(data.games)
   const myStats = data.games
-  console.log(data.games.length)
   $('.stats').text('You have played ' + data.games.length + ' games!')
 }
 module.exports = {

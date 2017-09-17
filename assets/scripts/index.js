@@ -188,8 +188,6 @@ $(() => {
   $('#new').on('submit', createNewGame)
   $('#new').on('submit', resetAll)
   $('#fetch').on('submit', getGames)
-  $('#changepassword').hide()
-  $('#change-password').hide()
   $('#fetch').hide()
   $('.stats').hide()
   $('.turn').text('Please log in or sign up.')
