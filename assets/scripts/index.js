@@ -181,6 +181,7 @@ $(() => {
   $('#sign-out').on('submit', resetForms)
   $('#sign-out').on('submit', resetFormsSignUp)
   $('#changepassword').on('submit', changePassword)
+  $('#changepassword').hide()
   $('#sign-out').on('submit', signOut)
   $('#sign-out').hide()
   $('#new').hide()
