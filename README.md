@@ -22,5 +22,5 @@ REST <br>
 
 <h4>WireFrames/ User Stories</h4>
 <ul>
-<li><a href = https://imgur.com/CzAodpR>Wire Frames</a></li>
+<li><a href = https://i.imgur.com/CzAodpR.jpg>Wire Frames</a></li>
 <li><a href = https://i.imgur.com/H2N44Hi.jpg>User Stories</a></li>
