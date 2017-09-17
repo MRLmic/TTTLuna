@@ -15,7 +15,7 @@ const onSignInSuccess = function (data) {
   $('#sign-out').show()
   $('#new').show()
   $('#changepassword').show()
-  // $('#change-password').show()
+  $('#sign-in').
   $('#fetch').show()
   $('.turn').text('Please click new game to start.')
   $('#wrapper').children().show()
