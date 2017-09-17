@@ -115,6 +115,7 @@ const changePassword = function (event) {
   const data = getFormFields(this)
   userApi.changePassword(data)
     .then(userUi.changeSuccess)
+    .then($(this).trigger('reset'))
     .catch(userUi.changeFailure)
 
 }
@@ -168,23 +169,30 @@ const resetForms = function () {
 const resetFormsSignUp = function () {
   document.getElementById('#sign-up').reset()
 }
+// const changePWFunction = function() {
+//   event.preventDefault()
+//   $('#change-password').hide()
+//   $('#changepassword').show()
+// }
 $(() => {
   setAPIOrigin(location, config)
   $('#sign-up').on('submit', signUp)
   $('#sign-in').on('submit', signIn)
   $('#sign-out').on('submit', resetForms)
   $('#sign-out').on('submit', resetFormsSignUp)
-  $('#change-password').on('submit', changePassword)
+  $('#changepassword').on('submit', changePassword)
   $('#sign-out').on('submit', signOut)
   $('#sign-out').hide()
   $('#new').hide()
   $('#new').on('submit', createNewGame)
   $('#new').on('submit', resetAll)
   $('#fetch').on('submit', getGames)
+  $('#changepassword').hide()
   $('#change-password').hide()
   $('#fetch').hide()
   $('.stats').hide()
   $('.turn').text('Please log in or sign up.')
+  // $('#change-password').on('submit', changePWFunction)
 }
 )
 module.exports = {
