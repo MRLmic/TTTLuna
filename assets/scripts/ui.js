@@ -6,16 +6,14 @@ const onSignUpSuccess = function (data) {
   $('.turn').text('user created! please sign in to play')
 }
 const onSignUpFailure = function (data) {
-  $('.turn').text('something went wrong, please try again')
+  $('.sign-up-success').text('something went wrong, please try again')
 }
 const onSignInSuccess = function (data) {
-  $('.turn').text('signed in')
   $('#sign-up').hide()
   $('#sign-in').hide()
   $('#sign-out').show()
   $('#new').show()
   $('#changepassword').show()
-  $('#sign-in').
   $('#fetch').show()
   $('.turn').text('Please click new game to start.')
   $('#wrapper').children().show()
@@ -23,10 +21,10 @@ const onSignInSuccess = function (data) {
   store.user = data.user
   store.token = data.user.token
   store.id = data.user.id
-  store.game = data.game //this
+  store.game = data.game // this
 }
 const onSignInFailure = function (data) {
-  $('.turn').text('oops, something went wrong. please try again')
+  $('.sign-up-success').text('oops, something went wrong. please try again')
 }
 const changeSuccess = function (data) {
   $('.turn').text('pw changed')
